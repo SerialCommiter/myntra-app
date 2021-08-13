@@ -1,0 +1,17 @@
+.searchbar-wrapper {
+  /* width: 100px; */
+  display: flex;
+
+  input {
+    height: 50px;
+    font-size: 14px;
+    border: 1px solid #808080;
+    box-sizing: border-box;
+  }
+  .search-button {
+    height: 50px;
+    width: 50px;
+    box-sizing: border-box;
+    border: 1px solid #808080;
+  }
+}
