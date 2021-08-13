@@ -1,19 +1,13 @@
-import React, { useEffect, useMemo, useReducer } from "react";
+import React, { useMemo, useReducer, useState } from "react";
 import { useProductData } from "../../../services/DataHandler";
-import { Filters } from "../../organism";
-import { CardGrid, FilterPanel } from "../../template";
+import { CardGrid, FilterPanel, Header } from "../../template";
 import { FilterObj } from "../../template/FilterPanel/FilterPanel";
 import { countDistinct, filterReducer, FilterState, Actions } from "./utils";
+import "./Styles.scss";
 
 function ProductPage() {
-  const { isError, isLoading, data } = useProductData();
-
-  if (data) {
-    const brandFilters = countDistinct(data.products.map((p) => p.brand));
-    const genderFilters = countDistinct(data.products.map((p) => p.gender));
-    const catsFilter = countDistinct(data.products.map((p) => p.category));
-  }
-
+  const { isLoading, data } = useProductData();
+  const [Searched, setSearched] = useState("");
   const [filterState, dispatch] = useReducer(filterReducer, FilterState);
   const FilterObjList: FilterObj[] = useMemo(
     () =>
@@ -31,22 +25,47 @@ function ProductPage() {
         : [],
     [data]
   );
-  useEffect(() => {
-    console.log(filterState);
-  }, [filterState]);
+
+  const ProductList = useMemo(
+    () =>
+      data
+        ? data.products.filter((p) => {
+            //filter on search
+            if (!p.productName.includes(Searched)) return false;
+
+            //filter on checkboxes
+            if (filterState.brand.size !== 0 && !filterState.brand.has(p.brand))
+              return false;
+            if (
+              filterState.category.size !== 0 &&
+              !filterState.category.has(p.category)
+            )
+              return false;
+
+            //filter on radiobtns
+            if (filterState.gender !== "" && filterState.gender !== p.gender)
+              return false;
+            return true;
+          })
+        : [],
+    [filterState, data, Searched]
+  );
 
   return (
-    <div>
+    <div className="product-page-wrapper">
       {isLoading
         ? "Loading..."
         : data && (
-            <div>
-              <FilterPanel
-                filterObjList={FilterObjList}
-                dispatchAction={dispatch}
-              />
-              <CardGrid produceList={data.products} />
-            </div>
+            <>
+              <Header setSearch={setSearched} />
+              <div className="product-section">
+                <FilterPanel
+                  filterObjList={FilterObjList}
+                  dispatchAction={dispatch}
+                />
+                <CardGrid productList={ProductList} />
+              </div>
+            </>
           )}
     </div>
   );
