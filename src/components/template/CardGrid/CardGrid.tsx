@@ -4,10 +4,10 @@ import { Product } from "../../../shared/Types";
 import { Card } from "../../organism";
 
 interface ICardGridProps {
-  produceList: Product[];
+  productList: Product[];
 }
 
-function CardGrid({ produceList }: ICardGridProps) {
+function CardGrid({ productList: produceList }: ICardGridProps) {
   return (
     <div className="card-grid-wrapper">
       {produceList.map((p) => (
