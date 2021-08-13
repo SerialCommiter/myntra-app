@@ -16,7 +16,9 @@
     text-align: start;
     .filter-label {
       font-size: 12px;
+      cursor: pointer;
       input {
+        cursor: pointer;
         margin-right: 10px;
       }
       .filter-count {
