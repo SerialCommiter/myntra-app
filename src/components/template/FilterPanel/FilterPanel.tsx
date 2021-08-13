@@ -27,7 +27,9 @@ function FilterPanel({ filterObjList, dispatchAction }: PanelProps) {
     <div className="filter-panel-wrapper">
       <RadioFilters
         radioList={Radios}
-        onClick={(value) => console.log("radio value:", value)}
+        onClick={(value) =>
+          dispatchAction({ payload: value, type: Actions.Gender })
+        }
       />
       {filterObjList.map((filter) => (
         <Filters
