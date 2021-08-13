@@ -1,5 +1,5 @@
-import React, { KeyboardEvent, useRef } from "react";
-import "./style.css";
+import { KeyboardEvent, useRef } from "react";
+import "./Styles.scss";
 
 interface ISearchBarProps {
   onSubmit: (value: string) => void;
@@ -22,7 +22,7 @@ const SearchBar = ({ onSubmit }: ISearchBarProps) => {
         ref={inputRef}
         type="text"
         className="search-bar"
-        placeholder="Search by product"
+        placeholder="Search for products, brands and more"
         onKeyDown={handleSubmit}
       />
       {/* <div className="search-button" onClick={handleSubmit} /> */}
